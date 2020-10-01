@@ -1,0 +1,4 @@
+nota_comment - opinion
+additional_information - opinion
+send_request - evaluate
+update_evaluation_status - evaluate

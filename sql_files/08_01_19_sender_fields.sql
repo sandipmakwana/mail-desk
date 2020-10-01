@@ -1,0 +1,1 @@
+ALTER TABLE `vs_courier_request` ADD `req_emp_address` TEXT NOT NULL AFTER `req_emp_extension`, ADD `req_emp_pincode` VARCHAR(50) NOT NULL AFTER `req_emp_address`, ADD `req_emp_type` VARCHAR(50) NOT NULL AFTER `req_emp_pincode`, ADD `req_emp_telephone` VARCHAR(50) NOT NULL AFTER `req_emp_type`, ADD `req_emp_remarks` TEXT NOT NULL AFTER `req_emp_telephone`;

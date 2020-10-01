@@ -1,0 +1,2 @@
+ALTER TABLE `vs_courier_request` ADD `req_emp_city` VARCHAR(100) NULL DEFAULT NULL AFTER `req_emp_address`;
+ALTER TABLE `vs_courier_request` CHANGE `req_emp_address` `req_emp_address` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;

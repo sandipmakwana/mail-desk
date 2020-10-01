@@ -1,0 +1,1 @@
+ALTER TABLE `vs_courier_agency` ADD `agency_tracking_url` VARCHAR(255) NULL DEFAULT NULL AFTER `agency_delivery_locations`;

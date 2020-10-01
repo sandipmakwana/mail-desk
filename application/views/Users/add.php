@@ -1,0 +1,232 @@
+<?php
+if (!isset($this->session->userdata['adm_login']['adm_username'])) {
+$url = base_url()."login/adm_login";
+redirect($url);
+}
+?>
+
+<div class="datalisting  animated fadeIn  mt-4">
+
+
+<?php
+
+$uname = isset($data['emp_username']) ? $data['emp_username'] : '';
+$pswd = isset($data['emp_password']) ? $data['emp_password'] : '';
+$fname = isset($data['emp_firstname']) ? $data['emp_firstname'] : '';
+$lname = isset($data['emp_lastname']) ? $data['emp_lastname'] : '';
+$eml = isset($data['emp_email']) ? $data['emp_email'] : '';
+$erole = isset($data['emp_role']) ? $data['emp_role'] : '';
+?>
+
+  <div class="container">
+  <div class="card">
+	<div class="card-body">
+		<p class="h5 text-left mb-4 red-text px-4" align="left">Add User</p>
+		<p id="head"></p>
+		<div class="row">
+    <div class="col-sm-8 text-left">
+      <!--<form class="mx-4 mt-4 form-sm wow fadeInRight" method="post" action="<?php echo site_url('routes/submit_user/1');?>" name="data_register" id="data_register" autocomple="off">-->
+	  <?php echo form_open('routes/submit_user/1',array('class'=>'mx-4 mt-4 form-sm wow fadeInRight','id'=>'data_register','autocomple'=>'off','name'=>'data_register'));?>
+	  <?php echo validation_errors();?>
+        <label for="empusername">Username</label>
+        <input type="input" id="empusername" name="empusername" class="form-control" value="<?php  echo set_value('empusername', $uname); ?>" >
+        <p id="p1"></p>
+        <label for="emppassword">Password</label>
+        <input type="password" id="emppassword" name="emppassword" class="form-control" value="<?php  echo set_value('emppassword', $pswd); ?>"  />
+        <p id="p2"></p>
+        <label for="empfirstname">Firstname</label>
+        <input type="input" id="empfirstname" name="empfirstname" class="form-control" value="<?php  echo set_value('empfirstname', $fname); ?>"   />
+        <p id="p3"></p>
+        <label for="emplastname">Lastname</label>
+        <input type="input" id="emplastname" name="emplastname" class="form-control" value="<?php  echo set_value('emplastname', $lname); ?>"  />
+        <p id="p4"></p>
+        <label for="empemail">Email</label>
+        <input type="input" id="empemail" name="empemail" class="form-control" value="<?php  echo set_value('empemail', $eml); ?>"  />
+        <p id="p5"></p>
+        <?php
+    $selemp = $selmod = $seladm = "";
+   		    if($erole == 'Employee')
+   		    {
+   		    	$selemp = "selected";
+   		    	$selmod = "";
+   		    	$seladm = "";
+   		    }
+   		    else if($erole == 'Moderator')
+   		    {
+   		    	$selmod = "selected";
+   		    	$selemp = "";
+   		    	$seladm = "";
+   		    }
+   		    else if($erole == 'Admin')
+			{
+				$selmod = "";
+				$selemp = "";
+				$seladm = "selected";
+   		    }
+
+	    ?>
+        <label for="emprole">Role</label>
+        <select class="form-control mdb-select" id="emprole" name="emprole"  onchange="showareas(this)">
+          <option value="0" >--Select--</option>
+          <option value="Employee"
+            <?php echo $selemp;?>>Employee
+          </option>
+          <option value="Moderator"
+            <?php echo $selmod;?>>Moderator
+          </option>
+          <option value="Admin"
+            <?php echo $seladm;?>>Admin
+          </option>
+
+        </select>
+        <p id="p6"></p>
+		<?php
+		 if(isset($view_area) && is_array($view_area) && count($view_area))
+					{
+
+
+		?>
+		<div id="showarea">
+		<label for="empareas">Areas</label>
+        <select class="form-control mdb-select" id="empareas" name="empareas[]"  multiple="multiple" size="10">
+          <option value="0">--Select--</option>
+		  <?php
+		  foreach ($view_area as $ardata)
+		  {
+
+		  ?>
+          <option value="<?php echo $ardata['area_id'];?>"><?php echo $ardata['area_title'];?> </option>
+		  <?php
+		  }
+		  ?>
+
+        </select>
+        <p id="p7"></p>
+		</div>
+		<?php
+		}
+		?>
+
+
+		<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+
+        <input type="submit" id="submit" name="submit" value="Add User" class="btn btn-danger" />
+        <input type="button" name="cancel" value="Cancel" onclick="history.back();" class="btn btn-outline-danger" />
+
+      </form>
+    </div></div>
+	<div class="clearfix"></div>
+	</div>
+  </div>
+    
+  </div>
+
+
+
+</div>
+  <script type="text/javascript">
+function showareas(select){
+   if(select.value=="Moderator"){
+    document.getElementById('showarea').style.display = "block";
+   } else{
+    document.getElementById('showarea').style.display = "none";
+   }
+}
+
+    $(document).ready(function () {
+		document.getElementById('showarea').style.display = "none";
+		
+	var emprole = $("#emprole");
+//alert(selectedValues);
+//alert(emprole.val());	
+ $('#submit').click(function(e) {
+
+   var empusername = $("#empusername").val();
+	empusername = jQuery.trim(empusername);
+
+   var emppassword = $("#emppassword").val();
+	emppassword = jQuery.trim(emppassword);
+
+   var empfirstname = $("#empfirstname").val();
+	empfirstname = jQuery.trim(empfirstname);
+
+   var emplastname = $("#emplastname").val();
+	emplastname = jQuery.trim(emplastname);
+
+   var empemail = $("#empemail").val();
+	empemail = jQuery.trim(empemail);
+
+		var emprole = $("#emprole");
+//alert(selectedValues);
+//alert(emprole.val());
+
+	  var name_regex = /^[a-zA-Z]+$/;
+	  var email_regex = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+	  var add_regex = /^[0-9a-zA-Z]+$/;
+	  var zip_regex = /^[0-9]+$/;
+	if (empusername.length == 0) {
+	$('#head').text("* All fields are mandatory *"); // This Segment Displays The Validation Rule For All Fields
+	$("#empusername").focus();
+	return false;
+	}
+	else if ((empusername.length > 150 )||(empusername.length == 0)) {
+	$('#p1').text("*Username cannot be empty or should be less than 150 characters"); // This Segment Displays The Validation Rule For Username
+	$("#empusername").focus();
+	return false;
+	}
+	else if ((emppassword.length > 150 )||(emppassword.length == 0)) {
+	$('#p2').text("*Password cannot be empty or should be less than 150 characters"); // This Segment Displays The Validation Rule For Name
+	$("#emppassword").focus();
+	return false;
+	}
+	else if (!empfirstname.match(name_regex) || empfirstname.length == 0 || empfirstname.length > 150) {
+	$('#p3').text("* For Firstname please use alphabets only, maximum 150 characters are allowed"); // This Segment Displays The Validation Rule For Name
+	$("#empfirstname").focus();
+	return false;
+	}
+	else if (!emplastname.match(name_regex) || emplastname.length == 0 || emplastname.length > 150) {
+	$('#p4').text("* For Lastname please use alphabets only, maximum 150 characters are allowed"); // This Segment Displays The Validation Rule For Name
+	$("#emplastname").focus();
+	return false;
+	}
+	else if (!empemail.match(email_regex) || empemail.length == 0 || empemail.length > 150) {
+	$('#p5').text("* Please enter a valid email address, Emailid cannot be more than 150 characters"); // This Segment Displays The Validation Rule For Email
+	$("#empemail").focus();
+	return false;
+	}
+	// Validating Select Field.
+	else if (emprole.val() == "0") {
+	$('#p6').text("* Please Choose employee role"); // This Segment Displays The Validation Rule For Selection
+	$("#emprole").focus();
+	return false;
+	}
+	else {
+		if (emprole.val() == "Moderator")
+		{
+			 var selectedValues = $("#empareas");
+			// alert(selectedValues);
+			if(selectedValues.val()=="")
+			{
+				$('#p7').text("* Please Choose Areas for Moderators "); // This Segment Displays The Validation Rule For Selection
+				$("#empareas").focus();
+				return false;
+			}
+			
+			if(selectedValues=='0')
+			{
+				$('#p7').text("* Please Choose Areas for Moderators"); // This Segment Displays The Validation Rule For Selection
+				$("#empareas").focus();
+				return false;
+			}
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+});
+});
+
+
+</script>
